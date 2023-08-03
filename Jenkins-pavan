@@ -28,7 +28,7 @@ pipeline{
         stage("Deploying war"){
             steps{
                 sshagent(['5d9c29f3-1469-4fe4-8381-283294976bee']){
-                    sh "scp -i StrictHostKeyChecking=no target/myweb.war ec2-user@172.31.44.26:/home/ec2-user/apache-tomcat-9.0.78/webapps/"
+                    sh "scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@172.31.44.26:/home/ec2-user/apache-tomcat-9.0.78/webapps/"
                     sh "ssh ec2-user@172.31.44.26 /home/ec2-user/apache-tomcat-9.0.78/bin/shutdown.sh"
                     sh "ssh ec2-user@172.31.44.26 /home/ec2-user/apache-tomcat-9.0.78/bin/startup.sh"
                 }
