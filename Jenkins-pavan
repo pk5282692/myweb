@@ -1,0 +1,19 @@
+pipeline{
+    agent node
+
+    tool name: 'Maven 3.6.3', type: 'maven'
+
+    stages{
+        stage("git checkout"){
+            steps{
+                git 'https://github.com/pk5282692/myweb.git'
+            }
+        }
+        stage("Build"){
+            steps{
+                sh "mvn clean package"
+                sh "mv *.*.war target/myweb.war"
+            }
+        }
+    }
+}
