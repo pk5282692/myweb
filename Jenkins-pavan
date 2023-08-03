@@ -1,7 +1,5 @@
 pipeline{
-    agent node
-
-    tool name: 'Maven 3.6.3', type: 'maven'
+    agent Maven
 
     stages{
         stage("git checkout"){
