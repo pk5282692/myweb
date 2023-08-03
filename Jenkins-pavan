@@ -2,7 +2,7 @@ pipeline{
     agent any
 
     stages{
-        stage("git checkout"){
+        stage("Git checkout"){
             steps{
                 git 'https://github.com/pk5282692/myweb.git'
             }
@@ -16,6 +16,11 @@ pipeline{
         stage("SonarQube"){
             steps{
                 sh "mvn sonar:sonar"
+            }
+        }
+        stage("Nexus"){
+            steps{
+                sh "mvn deploy"
             }
         }
     }
