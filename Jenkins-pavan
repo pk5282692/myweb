@@ -14,17 +14,17 @@ pipeline{
                 sh "mvn clean package"
                 sh "mv target/*.war target/myweb.war"
             }
-        }      /*
+        }      
         stage("SonarQube"){
             steps{
                 sh "mvn sonar:sonar"
             }
-        }      */
+        }      
         stage("Nexus"){
             steps{
                 sh "mvn deploy"
             }
-        }     /*
+        }     
         stage("Deploying war"){
             steps{
                 sshagent(['5d9c29f3-1469-4fe4-8381-283294976bee']){
@@ -33,6 +33,6 @@ pipeline{
                     sh "ssh ec2-user@172.31.44.26 /home/ec2-user/apache-tomcat-9.0.78/bin/startup.sh"
                 }
             }     
-        }          */
+        }          
     }
 }
