@@ -1,16 +1,15 @@
-pipeline{
+pipeline {
     agent any
-     tools {
+    
+    tools {
         maven 'Maven-3.6.1'
     }
     
-    environment{
-        PATH = "/opt/maven3/bin:$PATH"
-    }
+    
     stages{
         stage("Git Checkout"){
             steps{
-                git credentialsId: 'javahome2', url: 'https://github.com/srinicloud87/myweb.git'
+                git 'https://github.com/pk5282692/myweb.git'
             }
         }
         stage("Maven Build"){
@@ -29,20 +28,20 @@ pipeline{
                             type: 'war'
                        ]
                   ], 
-                  credentialsId: 'nexus3', 
+                  credentialsId: 'nexuscred', 
                   groupId: 'in.javahome', 
-                  nexusUrl: '172.31.15.119:8081', 
+                  nexusUrl: '172.31.39.113:8081', 
                   nexusVersion: 'nexus3', 
                   protocol: 'http', 
                   repository: 'sample-releases', 
                   version: '8.2.0'  
               }
-            }
+            }      /*
         stage("Execute Ansible"){
             steps{
                 ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible2', inventory: 'dev.in', playbook: 'copy.yml'
             }
            
-        }
+        }     */
     }
 }
