@@ -17,7 +17,7 @@ pipeline {
                 sh "mvn clean sonar:sonar package"
                 
             }
-        }        /*
+        }        
         stage('Upload War To Nexus'){
             steps{
                   nexusArtifactUploader artifacts: [
@@ -36,12 +36,12 @@ pipeline {
                   repository: 'sample-releases', 
                   version: '8.2.0'  
               }
-            }      */
+            }     /*
         stage('Nexus') {
             steps{
                 sh "mvn deploy"
             }
-        }
+        }        */
         stage("Execute Ansible"){
             steps{
                 ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible2', inventory: 'dev.in', playbook: 'copy.yml'
