@@ -1,0 +1,26 @@
+pipeline{
+    agent any
+     tools {
+        maven 'Maven-3.9.1'
+    }
+    
+    environment{
+        PATH = "/opt/maven3/bin:$PATH"
+    }
+    stages{
+        stage("Git Checkout"){
+            steps{
+                git 'https://github.com/pk5282692/myweb.git'
+            }
+        }
+        stage("Maven Build"){
+            steps{
+                sh "mvn clean"
+                sh "mvn test"
+                sh "mvn sonar:sonar"
+                sh "mvn package"
+                
+            }
+        }
+    }
+}

@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+    
+    tools {
+        maven 'Maven-3.6.1'
+    }
+    
+    
+    stages{
+        stage("Git Checkout"){
+            steps{
+                git 'https://github.com/pk5282692/myweb.git'
+            }
+        }
+        stage("Maven Build"){
+            steps{
+                sh "mvn clean sonar:sonar package"
+                
+            }
+        }        
+        stage('Upload War To Nexus'){
+            steps{
+                  nexusArtifactUploader artifacts: [
+                       [
+                            artifactId: 'myweb', 
+                            classifier: '', 
+                            file: "target/myweb-8.2.0.war", 
+                            type: 'war'
+                       ]
+                  ], 
+                  credentialsId: 'nexuscred', 
+                  groupId: 'in.javahome', 
+                  nexusUrl: '172.31.39.113:8081', 
+                  nexusVersion: 'nexus3', 
+                  protocol: 'http', 
+                  repository: 'sample-releases', 
+                  version: '8.2.0'  
+              }
+            }     /*
+        stage('Nexus') {
+            steps{
+                sh "mvn deploy"
+            }
+        }        */
+        stage("Execute Ansible"){
+            steps{
+                ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible2', inventory: 'dev.in', playbook: 'copy.yml'
+            }
+           
+        }     
+    }
+}

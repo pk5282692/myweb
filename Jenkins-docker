@@ -1,0 +1,59 @@
+pipeline{
+    agent any
+     tools {
+        maven 'Maven-3.6.1'
+    }
+    
+    environment{
+        PATH = "/opt/maven3/bin:$PATH"
+    }
+    stages{
+        stage("Git Checkout"){
+            steps{
+                git 'https://github.com/pk5282692/myweb.git'
+            }
+        }
+        stage("Maven Build"){
+            steps{
+                sh "mvn clean sonar:sonar package"
+                
+            }
+        }
+        stage('Upload War To Nexus'){
+            steps{
+                  nexusArtifactUploader artifacts: [
+                       [
+                            artifactId: 'myweb', 
+                            classifier: '', 
+                            file: "target/myweb-8.2.0.war", 
+                            type: 'war'
+                       ]
+                  ], 
+                  credentialsId: 'nexuscred', 
+                  groupId: 'in.javahome', 
+                  nexusUrl: '172.31.39.113:8081', 
+                  nexusVersion: 'nexus3', 
+                  protocol: 'http', 
+                  repository: 'sample-releases', 
+                  version: '8.2.0'  
+              }
+            }
+        stage('Build Docker Image'){
+            steps{
+                 sh 'docker build -t pk5282692/spring-boot-mongo .'
+                 sh 'docker build -t tomcat:${BUILD_NUMBER} .'
+                 sh 'docker run -itd --name pavan52 -p 3800:8080 tomcat:${BUILD_NUMBER}'
+             }
+         }
+        stage('Push Docker Image'){
+             steps{
+                  withCredentials([string(credentialsId: 'DOCKER_HUB_CREDENTIALS', variable: 'DOCKER_HUB_CREDENTIALS')]) {
+                      sh "docker login -u pk5282692 -p ${DOCKER_HUB_CREDENTIALS}"
+            }
+            sh 'docker push pk5282692/spring-boot-mongo'
+        }
+      }
+        
+        
+    }
+}
