@@ -14,17 +14,17 @@ pipeline{
                 sh "mvn clean package"
                 sh "mv target/*.war target/myweb.war"
             }
-        }      
+        }      /*
         stage("SonarQube"){
             steps{
                 sh "mvn sonar:sonar"
             }
-        }      /*
+        }      
         stage("Nexus"){
             steps{
                 sh "mvn deploy"
             }
-        }     */
+        }     
         stage("Nexus"){
             steps{
                 nexusArtifactUploader artifacts: [
@@ -43,7 +43,7 @@ pipeline{
                 repository: 'sample-releases', 
                 version: '8.2.0'
             }
-        }
+        }    */
         stage("Deploying war"){
             steps{
                 sshagent(['Tomcat-cred']) {
