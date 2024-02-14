@@ -1,7 +1,7 @@
 pipeline{
     agent any
      tools {
-        maven 'Maven-3.6.1'
+        maven 'Maven-3.6.3'
     }
     
     environment{
@@ -15,7 +15,8 @@ pipeline{
         }
         stage("Maven Build"){
             steps{
-                sh "mvn clean sonar:sonar package"
+                sh "mvn clean install package"
+#                sh "mvn clean sonar:sonar package"
                 
             }
         }
