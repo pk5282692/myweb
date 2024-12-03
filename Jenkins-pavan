@@ -45,15 +45,15 @@ pipeline{
                 repository: 'sample-releases', 
                 version: '8.2.0'
             }
-        }    
+        }    */
         stage("Deploying war"){
             steps{
                 sshagent(['Tomcat-cred']) {
-                    sh "scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@172.31.32.166:/home/ec2-user/apache-tomcat-9.0.86/webapps/"
-                    sh "ssh ec2-user@172.31.32.166 /home/ec2-user/apache-tomcat-9.0.86/bin/shutdown.sh"
-                    sh "ssh ec2-user@172.31.32.166 /home/ec2-user/apache-tomcat-9.0.86/bin/startup.sh"
+                    sh "scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@172.31.8.65:/home/ec2-user/apache-tomcat-9.0.97/webapps/"
+                    sh "ssh ec2-user@172.31.8.65 /home/ec2-user/apache-tomcat-9.0.97/bin/shutdown.sh"
+                    sh "ssh ec2-user@172.31.8.65 /home/ec2-user/apache-tomcat-9.0.97/bin/startup.sh"
                 }
             }     
-        }       */
+        }       
     }
 }
