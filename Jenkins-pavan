@@ -51,7 +51,7 @@ pipeline{
                     sh "ssh ec2-user@172.31.32.166 /home/ec2-user/apache-tomcat-9.0.86/bin/shutdown.sh"
                     sh "ssh ec2-user@172.31.32.166 /home/ec2-user/apache-tomcat-9.0.86/bin/startup.sh"
                 }
-            }     */
-        }       
+            }     
+        }       */
     }
 }
