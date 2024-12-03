@@ -48,7 +48,7 @@ pipeline{
         }    */
         stage("Deploying war"){
             steps{
-                sshagent(['Tomcat-cred2']) {
+                sshagent(['Tomcat-cred']) {
                     sh "scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@172.31.8.65:/home/ec2-user/apache-tomcat-9.0.97/webapps/"
                     sh "ssh ec2-user@172.31.8.65 /home/ec2-user/apache-tomcat-9.0.97/bin/shutdown.sh"
                     sh "ssh ec2-user@172.31.8.65 /home/ec2-user/apache-tomcat-9.0.97/bin/startup.sh"
